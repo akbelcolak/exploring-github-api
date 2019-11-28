@@ -71,6 +71,17 @@
           'method': "GET",
           'headers': headers
         });
+
+        // result does not have the header it has response
+        const link = response.headers.get("link")
+        const links = link.split(",")
+        const urls = links.map(a=>{
+          return {
+            url: a.split(";")[0].replace(">","").replace("<",""),
+            title: a.split(";")[1]
+          }
+        })
+
         const result = await response.json();
 
         result.items.forEach(i => {
@@ -82,12 +93,19 @@
           
           const anchor = document.createElement("a");
           anchor.href = i.html_url;
-          anchor.textContent = i.commit.message;
+          anchor.textContent = i.commit.message.substr(0,120) + "...";
           
           divResult.appendChild(img);
           divResult.appendChild(anchor);
           divResult.appendChild(document.createElement("br"));
         });
+
+        urls.forEach(u => {
+
+          const btn = document.createElement("button")
+          btn.textContent = u.title;
+          btn.addEventListener("click", e=> getCommits(u.url))
+        })
       }
 
       function clear() {
