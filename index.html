@@ -21,20 +21,24 @@
       async function getRepos() {
         clear();
         const url =
-          "https://api.github.com/search/repositories?q=stars:200000..320000";
+          "https://api.github.com/search/repositories?q=stars:250000..320000";
         const response = await fetch(url);
         const result = await response.json();
+        
         result.items.forEach(i => {
+          
           const anchor = document.createElement("a");
           anchor.href = i.html_url;
           anchor.textContent = i.full_name;
           divResult.appendChild(anchor);
           divResult.appendChild(document.createElement("br"));
         });
-        function clear() {
-          while (divResult.firstChild) divResult.removeChild();
-        }
       }
+      
+        function clear() {
+          while (divResult.firstChild)divResult.removeChild(divResult.firstChild);
+        }
+    
     </script>
   </body>
 </html>
