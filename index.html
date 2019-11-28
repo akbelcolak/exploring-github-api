@@ -24,7 +24,7 @@
 
       btnRepos.addEventListener("click", getRepos);
       btnIssues.addEventListener("click", getIssues);
-      btnCommits.addEventListener("click", getCommits);
+      btnCommits.addEventListener("click", e=> getCommits());
 
       async function getRepos() {
         clear();
@@ -60,10 +60,9 @@
 
       // I could not handle the erros, after adding rest of the code it still gave error on the same part and I could not see the result
       // I copy paste a working code
-      async function getCommits() {
+      async function getCommits(url="https://api.github.com/search/commits?q=repo:freecodecamp/freecodecamp author-date:2019-03-01..2019-03-31") {
         clear();
-        const url =
-          "https://api.github.com/search/commits?q=repo:freecodecamp/freecodecamp author-date:2019-03-01..2019-03-31";
+          
         const headers = {
           Accept: "application/vnd.github.cloak-preview"
         };
@@ -101,10 +100,10 @@
         });
 
         urls.forEach(u => {
-
           const btn = document.createElement("button")
           btn.textContent = u.title;
           btn.addEventListener("click", e=> getCommits(u.url))
+          divResult.appendChild(btn);
         })
       }
 
